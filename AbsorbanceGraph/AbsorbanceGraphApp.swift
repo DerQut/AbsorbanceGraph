@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct AbsorbanceGraphApp: App {
+    var globalData: GlobalData = GlobalData()
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(globalData)
         }
     }
 }

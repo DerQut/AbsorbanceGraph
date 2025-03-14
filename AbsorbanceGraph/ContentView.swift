@@ -8,14 +8,17 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @EnvironmentObject var globalData: GlobalData
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationSplitView {
+            SideBarView()
+                .ignoresSafeArea()
+        } detail: {
+            DetailView()
+                .ignoresSafeArea()
         }
-        .padding()
     }
 }
 
