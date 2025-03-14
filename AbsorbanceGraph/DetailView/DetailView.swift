@@ -20,7 +20,8 @@ struct DetailView: View {
 
 
             Tab("Graphs", systemImage: "chart.dots.scatter", value: 1) {
-                Text("Graphs")
+                GraphsView()
+                    .ignoresSafeArea()
             }
         }
     }

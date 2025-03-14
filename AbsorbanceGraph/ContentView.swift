@@ -14,7 +14,8 @@ struct ContentView: View {
     var body: some View {
         NavigationSplitView {
             SideBarView()
-                .ignoresSafeArea()
+                .navigationSplitViewColumnWidth(200)
+                //.ignoresSafeArea()
         } detail: {
             DetailView()
                 .ignoresSafeArea()
