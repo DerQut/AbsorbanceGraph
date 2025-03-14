@@ -19,9 +19,11 @@ struct ContentView: View {
             DetailView()
                 .ignoresSafeArea()
         }
+        .navigationTitle("Absorbance Graph")
     }
 }
 
 #Preview {
     ContentView()
+        .environmentObject(GlobalData())
 }
