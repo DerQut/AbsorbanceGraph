@@ -19,6 +19,6 @@ class GlobalData: ObservableObject {
     @Published var absorbanceValues: [Double] = []
     @Published var timeValues: [Double] = []
     @Published var concentrationValues: [Double] = []
-    @Published var reductionValues: [Double] = []
+    @Published var degradationValues: [Double] = []
     
 }
