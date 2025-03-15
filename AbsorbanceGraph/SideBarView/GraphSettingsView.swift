@@ -14,6 +14,12 @@ struct GraphSettingsView: View {
     @State var isShown: Bool = false
     @State var isFontPickerShown: Bool = false
     
+    #if os(iOS)
+    var paddingInset: CGFloat = 36
+    #else
+    var paddingInset: CGFloat = 28
+    #endif
+    
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
@@ -51,7 +57,7 @@ struct GraphSettingsView: View {
                 }
 
             }
-            .padding(.leading, 28)
+            .padding(.leading, paddingInset)
             .scaleEffect(y: isShown ? 1 : 0, anchor: .top)
             .opacity(isShown ? 1 : 0)
         }
