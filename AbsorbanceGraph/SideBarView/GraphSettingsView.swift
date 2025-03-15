@@ -52,7 +52,14 @@ struct GraphSettingsView: View {
                 HStack{
                     Text("Axis font size:")
                     Spacer()
-                    Stepper(globalData.graphAxisFont.description, value: $globalData.graphAxisFont, in: 1...24, step: 1)
+                    Stepper(globalData.graphAxisFont.description, value: $globalData.graphAxisFont, in: 1...32, step: 1)
+                        .foregroundStyle(Color.accentColor)
+                }
+                
+                HStack {
+                    Text("Tickmark font size:")
+                    Spacer()
+                    Stepper(globalData.graphTickmarkFont.description, value: $globalData.graphTickmarkFont, in: 1...32, step: 1)
                         .foregroundStyle(Color.accentColor)
                 }
 

@@ -13,9 +13,9 @@ struct ContentView: View {
     @EnvironmentObject var globalData: GlobalData
     
     #if os(iOS)
-    var columnWidth: CGFloat = 320
+    var columnWidth: CGFloat = 400
     #else
-    var columnWidth: CGFloat = 200
+    var columnWidth: CGFloat = 240
     #endif
     
     var body: some View {

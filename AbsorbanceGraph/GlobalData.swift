@@ -25,5 +25,6 @@ class GlobalData: ObservableObject {
     @Published var isGraphClosed: Bool = true
     @Published var showGrid: Bool = true
     @Published var graphAxisFont: Int = 12
+    @Published var graphTickmarkFont: Int = 12
     
 }
