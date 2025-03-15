@@ -10,7 +10,9 @@ import Foundation
 
 struct GraphSettingsView: View {
     
+    @EnvironmentObject var globalData: GlobalData
     @State var isShown: Bool = false
+    @State var isFontPickerShown: Bool = false
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -21,15 +23,36 @@ struct GraphSettingsView: View {
                 Text("Graph settings")
                 Spacer()
             }
+            .font(.title2)
             .onTapGesture {
                 isShown.toggle()
             }
             
-            VStack {
-                Text("aa")
+            VStack(alignment: .leading) {
+                HStack {
+                    Text("Close graphs")
+                    Spacer()
+                    Toggle("Close graphs", isOn: $globalData.isGraphClosed)
+                        .labelsVisibility(.hidden)
+                }
+                
+                HStack {
+                    Text("Use grid")
+                    Spacer()
+                    Toggle("Use grid", isOn: $globalData.showGrid)
+                        .labelsVisibility(.hidden)
+                }
+                
+                HStack{
+                    Text("Axis font size:")
+                    Spacer()
+                    Stepper(globalData.graphAxisFont.description, value: $globalData.graphAxisFont, in: 1...24, step: 1)
+                        .foregroundStyle(Color.accentColor)
+                }
+
             }
-            .padding(.horizontal, 24)
-            .scaleEffect(y: isShown ? 1 : 0)
+            .padding(.leading, 28)
+            .scaleEffect(y: isShown ? 1 : 0, anchor: .top)
             .opacity(isShown ? 1 : 0)
         }
         .animation(.default, value: isShown)

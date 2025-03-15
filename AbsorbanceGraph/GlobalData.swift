@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 enum concentrationUnit: String, CaseIterable {
     case mgL
@@ -20,5 +21,9 @@ class GlobalData: ObservableObject {
     @Published var timeValues: [Double] = []
     @Published var concentrationValues: [Double] = []
     @Published var degradationValues: [Double] = []
+    
+    @Published var isGraphClosed: Bool = true
+    @Published var showGrid: Bool = true
+    @Published var graphAxisFont: Int = 12
     
 }

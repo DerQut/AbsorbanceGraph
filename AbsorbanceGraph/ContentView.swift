@@ -7,15 +7,22 @@
 
 import SwiftUI
 
+
 struct ContentView: View {
     
     @EnvironmentObject var globalData: GlobalData
     
+    #if os(iOS)
+    var columnWidth: CGFloat = 300
+    #else
+    var columnWidth: CGFloat = 200
+    #endif
+    
     var body: some View {
         NavigationSplitView {
             SideBarView()
-                .navigationSplitViewColumnWidth(200)
-                //.ignoresSafeArea()
+                .navigationSplitViewColumnWidth(columnWidth)
+            
         } detail: {
             DetailView()
                 .ignoresSafeArea()
