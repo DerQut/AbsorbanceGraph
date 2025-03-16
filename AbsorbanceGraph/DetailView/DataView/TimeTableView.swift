@@ -17,15 +17,15 @@ struct TimeTableView: View {
             Text("Time, t [\(globalData.timeUnit)]")
             Divider()
                 .frame(width: 125)
-            ForEach (globalData.inputData.indices) { index in
-                TextField("", text: $globalData.inputData[index].timeStep)
+            ForEach (globalData.tableData.indices) { index in
+                TextField("", text: $globalData.tableData[index].timeStep)
                     .textFieldStyle(.roundedBorder)
                     .colorScheme(.light)
                     .frame(width: 125)
-                    .onChange(of: globalData.inputData[index].timeStep) {
-                        let temp = globalData.inputData[index].timeStep
+                    .onChange(of: globalData.tableData[index].timeStep) {
+                        let temp = globalData.tableData[index].timeStep
                         if !temp.isInteger && !temp.isDouble && !temp.isEmpty {
-                            globalData.inputData[index].timeStep = temp.filter {$0.isNumber}
+                            globalData.tableData[index].timeStep = temp.filter {$0.isNumber}
                         }
                     }
             }

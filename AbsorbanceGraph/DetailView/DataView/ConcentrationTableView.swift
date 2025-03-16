@@ -20,17 +20,17 @@ struct ConcentrationTableView: View {
             Text("Concentration, c [\(globalData.concentrationUnit == .ppm ? "ppm" : "mg/l")]")
             Divider()
                 .frame(width: frameWidth)
-            ForEach (globalData.outputData.indices) { index in
-                TextField("", text: $globalData.outputData[index].concentration)
+            ForEach (globalData.tableData.indices) { index in
+                TextField("", text: $globalData.tableData[index].concentration)
                     .textFieldStyle(.roundedBorder)
                     .colorScheme(.light)
                     .foregroundStyle(.black)
                     .frame(width: frameWidth)
                     .disabled(index != 0)
-                    .onChange(of: globalData.outputData[index].concentration) {
-                        let temp = globalData.outputData[index].concentration
+                    .onChange(of: globalData.tableData[index].concentration) {
+                        let temp = globalData.tableData[index].concentration
                         if !temp.isInteger && !temp.isDouble && !temp.isEmpty {
-                            globalData.outputData[index].concentration = temp.filter {$0.isNumber}
+                            globalData.tableData[index].concentration = temp.filter {$0.isNumber}
                         }
                         if index == 0 {
                             globalData.recalculateAll()

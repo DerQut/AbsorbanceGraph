@@ -11,6 +11,7 @@ struct GraphsView: View {
     var body: some View {
         ScrollView {
             VStack {
+                ConcentrationChartView()
                 Spacer()
             }
         }

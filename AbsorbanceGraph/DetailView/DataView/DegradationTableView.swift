@@ -20,17 +20,17 @@ struct DegradationTableView: View {
             Text("Degradation, %D [%]")
             Divider()
                 .frame(width: frameWidth)
-            ForEach (globalData.outputData.indices) { index in
-                TextField("", text: $globalData.outputData[index].degradation)
+            ForEach (globalData.tableData.indices) { index in
+                TextField("", text: $globalData.tableData[index].degradation)
                     .textFieldStyle(.roundedBorder)
                     .colorScheme(.light)
                     .frame(width: frameWidth)
                     .disabled(true)
                     .foregroundStyle(.black)
-                    .onChange(of: globalData.outputData[index].degradation) {
-                        let temp = globalData.outputData[index].degradation
+                    .onChange(of: globalData.tableData[index].degradation) {
+                        let temp = globalData.tableData[index].degradation
                         if !temp.isInteger && !temp.isDouble && !temp.isEmpty {
-                            globalData.outputData[index].degradation = temp.filter {$0.isNumber}
+                            globalData.tableData[index].degradation = temp.filter {$0.isNumber}
                         }
                     }
             }

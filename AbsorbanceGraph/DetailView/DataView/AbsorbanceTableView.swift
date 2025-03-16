@@ -19,15 +19,15 @@ struct AbsorbanceTableView: View {
             Text("Absorbance, A [\(globalData.absorbanceUnit)]")
             Divider()
                 .frame(width: frameWidth)
-            ForEach (globalData.inputData.indices) { index in
-                TextField("", text: $globalData.inputData[index].absorbance)
+            ForEach (globalData.tableData.indices) { index in
+                TextField("", text: $globalData.tableData[index].absorbance)
                     .textFieldStyle(.roundedBorder)
                     .colorScheme(.light)
                     .frame(width: frameWidth)
-                    .onChange(of: globalData.inputData[index].absorbance) {
-                        let temp = globalData.inputData[index].absorbance
+                    .onChange(of: globalData.tableData[index].absorbance) {
+                        let temp = globalData.tableData[index].absorbance
                         if !temp.isInteger && !temp.isDouble && !temp.isEmpty {
-                            globalData.inputData[index].absorbance = temp.filter {$0.isNumber}
+                            globalData.tableData[index].absorbance = temp.filter {$0.isNumber}
                         }
                         globalData.recalculateAll()
                     }

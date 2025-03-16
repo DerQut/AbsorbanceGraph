@@ -32,82 +32,58 @@ enum TimeUnit: String, Equatable, CaseIterable {
 }
 
 
-struct InputData: Identifiable {
+struct TableData: Identifiable {
     let id = UUID()
-    var timeStep: String
-    var absorbance: String
-}
-
-struct OutputData: Identifiable {
-    let id = UUID()
-    var concentration: String
-    var degradation: String
+    var timeStep: String = ""
+    var absorbance: String = ""
+    var concentration: String = ""
+    var degradation: String = ""
 }
 
 
 class GlobalData: ObservableObject {
-    
 
-    @Published var inputData: [InputData] = [
-        InputData(timeStep: "0", absorbance: ""),
-        InputData(timeStep: "15", absorbance: ""),
-        InputData(timeStep: "30", absorbance: ""),
-        InputData(timeStep: "60", absorbance: ""),
-        InputData(timeStep: "120", absorbance: ""),
-        InputData(timeStep: "180", absorbance: ""),
-        InputData(timeStep: "240", absorbance: "")
+    @Published var tableData: [TableData] = [
+        TableData(timeStep: "0", absorbance: "1.6", concentration: "250"),
+        TableData(timeStep: "15", absorbance: "1.5"),
+        TableData(timeStep: "30", absorbance: "1.4"),
+        TableData(timeStep: "60", absorbance: "1.37"),
+        TableData(timeStep: "120", absorbance: "1.35"),
+        TableData(timeStep: "180", absorbance: "1.31"),
+        TableData(timeStep: "240", absorbance: "1.28")
     ]
     
-    @Published var outputData: [OutputData] = []
     
     @Published var isGraphClosed: Bool = true
     @Published var showGrid: Bool = true
-    @Published var graphAxisFont: Int = 12
+    @Published var graphAxisFont: Int = 16
     @Published var graphTickmarkFont: Int = 12
     
     @Published var timeUnit: TimeUnit = .min
     @Published var absorbanceUnit: String = "a.u."
     @Published var concentrationUnit: ConcentrationUnit = .ppm
     
-    @Published var solventDensity: String = "1.000" {
-        didSet {
-            if !solventDensity.isDouble && !solventDensity.isInteger && !solventDensity.isEmpty {
-                solventDensity = ""
-            }
-        }
-    }
-    
-    @Published var soluteDensity: String = "1.000" {
-        didSet {
-            if !soluteDensity.isDouble && !soluteDensity.isInteger && !soluteDensity.isEmpty {
-                soluteDensity = ""
-            }
-        }
-    }
-    
     
     init() {
-        while (self.outputData.count < self.inputData.count) {
-            outputData.append(OutputData(concentration: "", degradation: ""))
-        }
+        self.recalculateAll()
     }
     
     
     func recalculateAll() {
-        if self.outputData[0].concentration.isEmpty { return }
-        if self.inputData[0].absorbance.isEmpty { return }
+        if self.tableData[0].concentration.isEmpty { return }
+        if self.tableData[0].absorbance.isEmpty { return }
         
-        self.outputData[0].degradation = "0"
+        self.tableData[0].degradation = "0"
         
-        self.inputData.filter {
+        self.tableData.filter {
             !$0.absorbance.isEmpty
         }.indices.filter {
             $0 != 0
         }.forEach { i in
-            self.outputData[i].concentration = String(Double(self.outputData[0].concentration)! * Double(self.inputData[i].absorbance)! / Double(self.inputData[0].absorbance)!)
+            self.tableData[i].concentration = String(Double(self.tableData[0].concentration)! * Double(self.tableData[i].absorbance)! / Double(self.tableData[0].absorbance)!)
             
-            self.outputData[i].degradation = String(
-                100 * (1 - Double(self.outputData[i].concentration)! / Double(self.outputData[0].concentration)!)
+            self.tableData[i].degradation = String(
+                100 * (1 - Double(self.tableData[i].concentration)! / Double(self.tableData[0].concentration)!)
             )
         }
     }
