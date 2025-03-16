@@ -23,6 +23,14 @@ enum ConcentrationUnit: String, Equatable, CaseIterable {
     var localizedName: LocalizedStringKey { LocalizedStringKey(rawValue) }
 }
 
+enum TimeUnit: String, Equatable, CaseIterable {
+    case s = "s"
+    case min = "min"
+    case h = "h"
+    
+    var localizedName: LocalizedStringKey { LocalizedStringKey(rawValue) }
+}
+
 
 struct InputData: Identifiable {
     let id = UUID()
@@ -57,6 +65,7 @@ class GlobalData: ObservableObject {
     @Published var graphAxisFont: Int = 12
     @Published var graphTickmarkFont: Int = 12
     
+    @Published var timeUnit: TimeUnit = .min
     @Published var absorbanceUnit: String = "a.u."
     @Published var concentrationUnit: ConcentrationUnit = .ppm
     

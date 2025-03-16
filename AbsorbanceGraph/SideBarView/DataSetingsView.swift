@@ -35,6 +35,19 @@ struct DataSettingsView: View {
             
             if isShown {
                 VStack(alignment: .leading) {
+                    
+                    HStack {
+                        Text("Time unit:")
+                        Spacer()
+                        Picker("", selection: $globalData.timeUnit) {
+                            ForEach(TimeUnit.allCases, id: \.self) { value in
+                                Text(value.localizedName)
+                            }
+                        }
+                        .pickerStyle(.segmented)
+                        .frame(width: 75)
+                    }
+                    
                     HStack {
                         Text("Absorbance unit:")
                         Spacer()

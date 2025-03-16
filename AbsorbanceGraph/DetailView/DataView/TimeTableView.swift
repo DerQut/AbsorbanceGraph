@@ -14,7 +14,7 @@ struct TimeTableView: View {
     
     var body: some View {
         VStack {
-            Text("Time, t [min]")
+            Text("Time, t [\(globalData.timeUnit)]")
             Divider()
                 .frame(width: 100)
             ForEach (globalData.inputData.indices) { index in
