@@ -85,9 +85,30 @@ class GlobalData: ObservableObject {
         }
     }
     
+    
     init() {
         while (self.outputData.count < self.inputData.count) {
             outputData.append(OutputData(concentration: "", degradation: ""))
+        }
+    }
+    
+    
+    func recalculateAll() {
+        if self.outputData[0].concentration.isEmpty { return }
+        if self.inputData[0].absorbance.isEmpty { return }
+        
+        self.outputData[0].degradation = "0"
+        
+        self.inputData.filter {
+            !$0.absorbance.isEmpty
+        }.indices.filter {
+            $0 != 0
+        }.forEach { i in
+            self.outputData[i].concentration = String(Double(self.outputData[0].concentration)! * Double(self.inputData[i].absorbance)! / Double(self.inputData[0].absorbance)!)
+            
+            self.outputData[i].degradation = String(
+                100 * (1 - Double(self.outputData[i].concentration)! / Double(self.outputData[0].concentration)!)
+            )
         }
     }
     

@@ -24,12 +24,16 @@ struct ConcentrationTableView: View {
                 TextField("", text: $globalData.outputData[index].concentration)
                     .textFieldStyle(.roundedBorder)
                     .colorScheme(.light)
+                    .foregroundStyle(.black)
                     .frame(width: frameWidth)
                     .disabled(index != 0)
                     .onChange(of: globalData.outputData[index].concentration) {
                         let temp = globalData.outputData[index].concentration
                         if !temp.isInteger && !temp.isDouble && !temp.isEmpty {
                             globalData.outputData[index].concentration = temp.filter {$0.isNumber}
+                        }
+                        if index == 0 {
+                            globalData.recalculateAll()
                         }
                     }
             }

@@ -26,6 +26,7 @@ struct DegradationTableView: View {
                     .colorScheme(.light)
                     .frame(width: frameWidth)
                     .disabled(true)
+                    .foregroundStyle(.black)
                     .onChange(of: globalData.outputData[index].degradation) {
                         let temp = globalData.outputData[index].degradation
                         if !temp.isInteger && !temp.isDouble && !temp.isEmpty {

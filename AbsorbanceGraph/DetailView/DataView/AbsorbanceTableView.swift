@@ -29,6 +29,7 @@ struct AbsorbanceTableView: View {
                         if !temp.isInteger && !temp.isDouble && !temp.isEmpty {
                             globalData.inputData[index].absorbance = temp.filter {$0.isNumber}
                         }
+                        globalData.recalculateAll()
                     }
             }
         }
