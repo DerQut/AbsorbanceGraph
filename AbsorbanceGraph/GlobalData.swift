@@ -15,6 +15,12 @@ enum ConcentrationUnit: String, Equatable, CaseIterable {
     var localizedName: LocalizedStringKey { LocalizedStringKey(rawValue) }
 }
 
+extension String {
+    var isInteger: Bool { return Int(self) != nil }
+    var isFloat: Bool { return Float(self) != nil }
+    var isDouble: Bool { return Double(self) != nil }
+}
+
 
 class GlobalData: ObservableObject {
     
@@ -30,5 +36,21 @@ class GlobalData: ObservableObject {
     
     @Published var absorbanceUnit: String = "a.u."
     @Published var concentrationUnit: ConcentrationUnit = .ppm
+    
+    @Published var solventDensity: String = "1.000" {
+        didSet {
+            if !solventDensity.isDouble && !solventDensity.isInteger && !solventDensity.isEmpty {
+                solventDensity = ""
+            }
+        }
+    }
+    
+    @Published var soluteDensity: String = "1.000" {
+        didSet {
+            if !soluteDensity.isDouble && !soluteDensity.isInteger && !soluteDensity.isEmpty {
+                soluteDensity = ""
+            }
+        }
+    }
     
 }

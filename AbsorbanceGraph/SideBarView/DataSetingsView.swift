@@ -55,6 +55,22 @@ struct DataSettingsView: View {
                         .frame(width: 75)
                     }
                     
+                    if false && globalData.concentrationUnit == .ppm {
+                        HStack {
+                            Text("Solvent density:")
+                            Spacer()
+                            TextField("", text: $globalData.solventDensity)
+                                .frame(width: 75)
+                        }
+                        
+                        HStack {
+                            Text("Solute density:")
+                            Spacer()
+                            TextField("", text: $globalData.soluteDensity)
+                                .frame(width: 75)
+                        }
+                    }
+                    
                 }
                 .padding(.leading, paddingInset)
             }
