@@ -8,14 +8,15 @@
 import Foundation
 import SwiftUI
 
-enum concentrationUnit: String, CaseIterable {
-    case mgL
-    case ppm
+enum ConcentrationUnit: String, Equatable, CaseIterable {
+    case mgL = "mg/l"
+    case ppm = "ppm"
+    
+    var localizedName: LocalizedStringKey { LocalizedStringKey(rawValue) }
 }
 
 
 class GlobalData: ObservableObject {
-    @Published var concentrationUnit: concentrationUnit = .mgL
     
     @Published var absorbanceValues: [Double] = []
     @Published var timeValues: [Double] = []
@@ -26,5 +27,8 @@ class GlobalData: ObservableObject {
     @Published var showGrid: Bool = true
     @Published var graphAxisFont: Int = 12
     @Published var graphTickmarkFont: Int = 12
+    
+    @Published var absorbanceUnit: String = "a.u."
+    @Published var concentrationUnit: ConcentrationUnit = .ppm
     
 }

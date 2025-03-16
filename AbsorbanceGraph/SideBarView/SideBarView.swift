@@ -12,8 +12,14 @@ struct SideBarView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
+                
+                DataSettingsView()
+                    .padding(.horizontal)
+                    .padding(.top)
+                
                 GraphSettingsView()
-                    .padding()
+                    .padding(.horizontal)
+                    .padding(.top)
                 
                 Spacer()
             }

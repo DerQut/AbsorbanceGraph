@@ -11,8 +11,7 @@ import Foundation
 struct GraphSettingsView: View {
     
     @EnvironmentObject var globalData: GlobalData
-    @State var isShown: Bool = false
-    @State var isFontPickerShown: Bool = false
+    @State var isShown: Bool = true
     
     #if os(iOS)
     var paddingInset: CGFloat = 36
@@ -34,40 +33,38 @@ struct GraphSettingsView: View {
                 isShown.toggle()
             }
             
-            VStack(alignment: .leading) {
-                HStack {
-                    Text("Close graphs")
-                    Spacer()
-                    Toggle("Close graphs", isOn: $globalData.isGraphClosed)
-                        .labelsVisibility(.hidden)
+            if isShown {
+                VStack(alignment: .leading) {
+                    HStack {
+                        Text("Close graphs")
+                        Spacer()
+                        Toggle("Close graphs", isOn: $globalData.isGraphClosed)
+                            .labelsVisibility(.hidden)
+                    }
+                    
+                    HStack {
+                        Text("Use grid")
+                        Spacer()
+                        Toggle("Use grid", isOn: $globalData.showGrid)
+                            .labelsVisibility(.hidden)
+                    }
+                    
+                    HStack{
+                        Text("Axis font size:")
+                        Spacer()
+                        Stepper(globalData.graphAxisFont.description, value: $globalData.graphAxisFont, in: 1...32, step: 1)
+                            .foregroundStyle(Color.accentColor)
+                    }
+                    
+                    HStack {
+                        Text("Tickmark font size:")
+                        Spacer()
+                        Stepper(globalData.graphTickmarkFont.description, value: $globalData.graphTickmarkFont, in: 1...32, step: 1)
+                            .foregroundStyle(Color.accentColor)
+                    }
                 }
-                
-                HStack {
-                    Text("Use grid")
-                    Spacer()
-                    Toggle("Use grid", isOn: $globalData.showGrid)
-                        .labelsVisibility(.hidden)
-                }
-                
-                HStack{
-                    Text("Axis font size:")
-                    Spacer()
-                    Stepper(globalData.graphAxisFont.description, value: $globalData.graphAxisFont, in: 1...32, step: 1)
-                        .foregroundStyle(Color.accentColor)
-                }
-                
-                HStack {
-                    Text("Tickmark font size:")
-                    Spacer()
-                    Stepper(globalData.graphTickmarkFont.description, value: $globalData.graphTickmarkFont, in: 1...32, step: 1)
-                        .foregroundStyle(Color.accentColor)
-                }
-
+                .padding(.leading, paddingInset)
             }
-            .padding(.leading, paddingInset)
-            .scaleEffect(y: isShown ? 1 : 0, anchor: .top)
-            .opacity(isShown ? 1 : 0)
         }
-        .animation(.default, value: isShown)
     }
 }

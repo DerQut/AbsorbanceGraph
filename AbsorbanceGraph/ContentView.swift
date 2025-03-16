@@ -15,7 +15,7 @@ struct ContentView: View {
     #if os(iOS)
     var columnWidth: CGFloat = 400
     #else
-    var columnWidth: CGFloat = 240
+    var columnWidth: CGFloat = 270
     #endif
     
     var body: some View {
