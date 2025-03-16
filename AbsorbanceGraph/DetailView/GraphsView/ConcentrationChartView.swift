@@ -12,16 +12,22 @@ import Charts
 struct ConcentrationChartView: View {
     @EnvironmentObject var globalData: GlobalData
     
-    @State var xDomainMin: String = "0"
-    @State var xDomainMax: String = "300"
+    @State var xDomainMinBuffer: String = "0"
+    @State var xDomainMaxBuffer: String = "300"
+    
+    @State var xDomainMin: Double = 0
+    @State var xDomainMax: Double = 300
     
     @State var xMajorStep: String = "100"
     @State var xMajorLines: [Double] = [0, 100, 200, 300]
     @State var xMinorStep: String = "50"
     @State var xMinorLines: [Double] = [0, 50, 100, 150, 200, 250, 300]
     
-    @State var yDomainMin: String = "0"
-    @State var yDomainMax: String = "300"
+    @State var yDomainMinBuffer: String = "0"
+    @State var yDomainMaxBuffer: String = "300"
+    
+    @State var yDomainMin: Double = 0
+    @State var yDomainMax: Double = 300
     
     @State var yMajorStep: String = "100"
     @State var yMajorLines: [Double] = [0, 100, 200, 300]
@@ -43,8 +49,8 @@ struct ConcentrationChartView: View {
                     }
                 }
                 .frame(width: 400, height: 300)
-                .chartXScale(domain: (Double(xDomainMin) ?? 0)...(Double(xDomainMax) ?? 1))
-                .chartYScale(domain: (Double(yDomainMin) ?? 0)...(Double(yDomainMax) ?? 1))
+                .chartXScale(domain: (xDomainMin...xDomainMax))
+                .chartYScale(domain: (yDomainMin...yDomainMax))
                 
                 .chartXAxisLabel(position: .bottom, alignment: .center) {
                     Text("Time, t [\(globalData.timeUnit)]")
@@ -90,7 +96,7 @@ struct ConcentrationChartView: View {
                             .foregroundStyle(.black)
                     }
                     
-                    AxisMarks(values: [Double(yDomainMax) ?? 0]) { value in
+                    AxisMarks(values: [yDomainMax]) { value in
                         if globalData.isGraphClosed {
                             AxisGridLine(centered: true, stroke: StrokeStyle(lineWidth: 2))
                                 .foregroundStyle(.black)
@@ -99,12 +105,10 @@ struct ConcentrationChartView: View {
                 }
                 
                 .chartXAxis {
-                    AxisMarks(preset: .aligned, position: .bottom) { value in
+                    AxisMarks(preset: .aligned, position: .bottom, values: [xMinorLines.first ?? 0]) { value in
                         
-                        if value.index == 0 {
-                            AxisGridLine(centered: true, stroke: StrokeStyle(lineWidth: 2))
-                                .foregroundStyle(.black)
-                        }
+                        AxisGridLine(centered: true, stroke: StrokeStyle(lineWidth: 2))
+                            .foregroundStyle(.black)
                     }
                     
                     AxisMarks(values: xMinorLines) { value in
@@ -129,7 +133,7 @@ struct ConcentrationChartView: View {
                             .foregroundStyle(.black)
                     }
                     
-                    AxisMarks(values: [Double(xDomainMax) ?? 0]) { value in
+                    AxisMarks(values: [xDomainMax]) { value in
                         if globalData.isGraphClosed {
                             AxisGridLine(centered: true, stroke: StrokeStyle(lineWidth: 2))
                                 .foregroundStyle(.black)
@@ -145,11 +149,11 @@ struct ConcentrationChartView: View {
                 HStack {
                     Text("X range (min):")
                     Spacer()
-                    TextField("", text: $xDomainMin)
+                    TextField("", text: $xDomainMinBuffer)
                         .frame(width: 50)
-                        .onChange(of: xDomainMin) {
-                            if !xDomainMin.isDouble && !xDomainMin.isInteger && !xDomainMin.isEmpty {
-                                xDomainMin = xDomainMin.filter { $0.isNumber }
+                        .onChange(of: xDomainMinBuffer) {
+                            if !xDomainMinBuffer.isDouble && !xDomainMinBuffer.isInteger && !xDomainMinBuffer.isEmpty {
+                                xDomainMinBuffer = xDomainMinBuffer.filter { $0.isNumber }
                             }
                             updateXLines()
                         }
@@ -158,11 +162,11 @@ struct ConcentrationChartView: View {
                 HStack {
                     Text("X range (max):")
                     Spacer()
-                    TextField("", text: $xDomainMax)
+                    TextField("", text: $xDomainMaxBuffer)
                         .frame(width: 50)
-                        .onChange(of: xDomainMax) {
-                            if !xDomainMax.isDouble && !xDomainMax.isInteger && !xDomainMax.isEmpty {
-                                xDomainMax = xDomainMax.filter { $0.isNumber }
+                        .onChange(of: xDomainMaxBuffer) {
+                            if !xDomainMaxBuffer.isDouble && !xDomainMaxBuffer.isInteger && !xDomainMaxBuffer.isEmpty {
+                                xDomainMaxBuffer = xDomainMaxBuffer.filter { $0.isNumber }
                             }
                             updateXLines()
                         }
@@ -201,11 +205,11 @@ struct ConcentrationChartView: View {
                 HStack {
                     Text("Y range (min):")
                     Spacer()
-                    TextField("", text: $yDomainMin)
+                    TextField("", text: $yDomainMinBuffer)
                         .frame(width: 50)
-                        .onChange(of: yDomainMin) {
-                            if !yDomainMin.isDouble && !yDomainMin.isInteger && !yDomainMin.isEmpty {
-                                yDomainMin = yDomainMin.filter { $0.isNumber }
+                        .onChange(of: yDomainMinBuffer) {
+                            if !yDomainMinBuffer.isDouble && !yDomainMinBuffer.isInteger && !yDomainMinBuffer.isEmpty {
+                                yDomainMinBuffer = yDomainMinBuffer.filter { $0.isNumber }
                             }
                             updateYLines()
                         }
@@ -214,11 +218,11 @@ struct ConcentrationChartView: View {
                 HStack {
                     Text("Y range (max):")
                     Spacer()
-                    TextField("", text: $yDomainMax)
+                    TextField("", text: $yDomainMaxBuffer)
                         .frame(width: 50)
-                        .onChange(of: yDomainMax) {
-                            if !yDomainMax.isDouble && !yDomainMax.isInteger && !yDomainMax.isEmpty {
-                                yDomainMax = yDomainMax.filter { $0.isNumber }
+                        .onChange(of: yDomainMaxBuffer) {
+                            if !yDomainMaxBuffer.isDouble && !yDomainMaxBuffer.isInteger && !yDomainMaxBuffer.isEmpty {
+                                yDomainMaxBuffer = yDomainMaxBuffer.filter { $0.isNumber }
                             }
                             updateYLines()
                         }
@@ -233,7 +237,7 @@ struct ConcentrationChartView: View {
                         .frame(width: 50)
                         .onChange(of: yMinorStep) {
                             if !yMinorStep.isDouble && !yMinorStep.isInteger && !yMinorStep.isEmpty {
-                                yMinorStep = yMinorStep.filter { $0.isNumber }
+                                yMinorStep = yMinorStep.filter { $0.isNumber}
                             }
                             updateYLines()
                         }
@@ -257,18 +261,16 @@ struct ConcentrationChartView: View {
     
     func updateXLines() {
         
-        if (Double(xDomainMin) ?? 0 >= Double(xDomainMax) ?? 1) {
-            xDomainMin = "0"
-            xDomainMax = "1"
-            return
-        }
-        
-        if let xMin = Double(xDomainMin), let xMax = Double(xDomainMax), let minorStep = Double(xMinorStep), let majorStep = Double(xMajorStep) {
+        if let xMin = Double(xDomainMinBuffer), let xMax = Double(xDomainMaxBuffer), let minorStep = Double(xMinorStep), let majorStep = Double(xMajorStep) {
+            
+            if (minorStep <= 0 || majorStep <= 0) { return }
+            if (xMin >= xMax) { return }
+            
+            xDomainMin = xMin
+            xDomainMax = xMax
             
             xMinorLines = []
             xMajorLines = []
-            
-            if (minorStep <= 0 || majorStep <= 0) { return }
             
             var i: Double = xMin
             while i <= xMax {
@@ -282,25 +284,20 @@ struct ConcentrationChartView: View {
                 i += majorStep
             }
         }
-        
-        
-        
     }
     
     func updateYLines() {
         
-        if (Double(yDomainMin) ?? 0 >= Double(yDomainMax) ?? 1) {
-            yDomainMin = "0"
-            yDomainMax = "1"
-            return
-        }
-        
-        if let yMin = Double(yDomainMin), let yMax = Double(yDomainMax), let minorStep = Double(yMinorStep), let majorStep = Double(yMajorStep) {
+        if let yMin = Double(yDomainMinBuffer), let yMax = Double(yDomainMaxBuffer), let minorStep = Double(yMinorStep), let majorStep = Double(yMajorStep) {
+            
+            if (minorStep <= 0 || majorStep <= 0) { return }
+            if (yMin >= yMax) { return }
+            
+            yDomainMin = yMin
+            yDomainMax = yMax
             
             yMinorLines = []
             yMajorLines = []
-            
-            if (minorStep <= 0 || majorStep <= 0) { return }
             
             var i: Double = yMin
             while i <= yMax {
