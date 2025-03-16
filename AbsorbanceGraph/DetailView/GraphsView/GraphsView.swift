@@ -11,7 +11,12 @@ struct GraphsView: View {
     var body: some View {
         ScrollView {
             VStack {
+                AbsorbanceChartView()
+                Divider()
                 ConcentrationChartView()
+                Divider()
+                DegradationChartView()
+                
                 Spacer()
             }
         }

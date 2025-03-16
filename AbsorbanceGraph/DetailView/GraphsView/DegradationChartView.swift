@@ -1,15 +1,15 @@
 //
-//  ConcentrationChartView.swift
+//  DegradationChartView.swift
 //  AbsorbanceGraph
 //
-//  Created by Marcel Chołodecki on 16/03/2025.
+//  Created by Marcel Chołodecki on 17/03/2025.
 //
 
 import SwiftUI
 import Charts
 
 
-struct ConcentrationChartView: View {
+struct DegradationChartView: View {
     @EnvironmentObject var globalData: GlobalData
     
     @State var xDomainMinBuffer: String = "0"
@@ -24,26 +24,26 @@ struct ConcentrationChartView: View {
     @State var xMinorLines: [Double] = [0, 50, 100, 150, 200, 250, 300]
     
     @State var yDomainMinBuffer: String = "0"
-    @State var yDomainMaxBuffer: String = "300"
+    @State var yDomainMaxBuffer: String = "100"
     
     @State var yDomainMin: Double = 0
-    @State var yDomainMax: Double = 300
+    @State var yDomainMax: Double = 100
     
-    @State var yMajorStep: String = "100"
-    @State var yMajorLines: [Double] = [0, 100, 200, 300]
-    @State var yMinorStep: String = "50"
-    @State var yMinorLines: [Double] = [0, 50, 100, 150, 200, 250, 300]
+    @State var yMajorStep: String = "20"
+    @State var yMajorLines: [Double] = [0, 20, 40, 60, 80, 100]
+    @State var yMinorStep: String = "10"
+    @State var yMinorLines: [Double] = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
     
     var body: some View {
         HStack {
             ZStack {
                 Color(.white)
                 Chart {
-                    ForEach (globalData.tableData.filter{ !$0.timeStep.isEmpty && !$0.concentration.isEmpty }) { data in
-                        if !data.timeStep.isEmpty && !data.concentration.isEmpty {
+                    ForEach (globalData.tableData.filter{ !$0.timeStep.isEmpty && !$0.degradation.isEmpty }) { data in
+                        if !data.timeStep.isEmpty && !data.degradation.isEmpty {
                             PointMark(
                                 x: .value("Time", Double(data.timeStep)!),
-                                y: .value("Concentration", Double(data.concentration)!)
+                                y: .value("Concentration", Double(data.degradation)!)
                             )
                         }
                     }
@@ -60,7 +60,7 @@ struct ConcentrationChartView: View {
                 }
                 
                 .chartYAxisLabel(position: .leading) {
-                    Text("Concentration, c [\(globalData.concentrationUnit == .mgL ? "mg/l" : "ppm")]")
+                    Text("Degradation, %D [%]")
                         .font(Font.custom("TimesNewRomanPSMT", size: CGFloat(globalData.graphAxisFont)))
                         .foregroundStyle(.black)
                         .rotationEffect(.degrees(180))
