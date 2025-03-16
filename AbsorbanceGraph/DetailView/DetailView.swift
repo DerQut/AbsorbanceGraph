@@ -15,13 +15,11 @@ struct DetailView: View {
         TabView(selection: $selectedTab) {
             Tab("Data", systemImage: "tablecells", value: 0) {
                 DataView()
-                    .ignoresSafeArea()
             }
 
 
             Tab("Graphs", systemImage: "chart.dots.scatter", value: 1) {
                 GraphsView()
-                    .ignoresSafeArea()
             }
         }
     }

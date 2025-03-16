@@ -25,7 +25,7 @@ struct ContentView: View {
             
         } detail: {
             DetailView()
-                .ignoresSafeArea()
+                .padding()
         }
         .navigationTitle("Absorbance Graph")
     }
