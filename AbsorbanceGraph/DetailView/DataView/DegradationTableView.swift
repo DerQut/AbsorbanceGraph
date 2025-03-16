@@ -13,14 +13,18 @@ struct DegradationTableView: View {
     
     @EnvironmentObject var globalData: GlobalData
     
+    let frameWidth: CGFloat
+    
     var body: some View {
         VStack {
             Text("Degradation, %D [%]")
             Divider()
-                .frame(width: 150)
+                .frame(width: frameWidth)
             ForEach (globalData.outputData.indices) { index in
                 TextField("", text: $globalData.outputData[index].degradation)
-                    .frame(width: 150)
+                    .textFieldStyle(.roundedBorder)
+                    .colorScheme(.light)
+                    .frame(width: frameWidth)
                     .disabled(true)
                     .onChange(of: globalData.outputData[index].degradation) {
                         let temp = globalData.outputData[index].degradation

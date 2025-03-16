@@ -14,6 +14,7 @@ struct AbsorbanceGraphApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(globalData)
+                .preferredColorScheme(.dark)
         }
     }
 }

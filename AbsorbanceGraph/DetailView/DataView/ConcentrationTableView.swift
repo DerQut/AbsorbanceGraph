@@ -13,14 +13,18 @@ struct ConcentrationTableView: View {
     
     @EnvironmentObject var globalData: GlobalData
     
+    let frameWidth: CGFloat
+    
     var body: some View {
         VStack {
             Text("Concentration, c [\(globalData.concentrationUnit == .ppm ? "ppm" : "mg/l")]")
             Divider()
-                .frame(width: 150)
+                .frame(width: frameWidth)
             ForEach (globalData.outputData.indices) { index in
                 TextField("", text: $globalData.outputData[index].concentration)
-                    .frame(width: 150)
+                    .textFieldStyle(.roundedBorder)
+                    .colorScheme(.light)
+                    .frame(width: frameWidth)
                     .disabled(index != 0)
                     .onChange(of: globalData.outputData[index].concentration) {
                         let temp = globalData.outputData[index].concentration

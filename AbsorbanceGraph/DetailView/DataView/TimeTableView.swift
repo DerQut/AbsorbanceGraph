@@ -16,10 +16,12 @@ struct TimeTableView: View {
         VStack {
             Text("Time, t [\(globalData.timeUnit)]")
             Divider()
-                .frame(width: 100)
+                .frame(width: 125)
             ForEach (globalData.inputData.indices) { index in
                 TextField("", text: $globalData.inputData[index].timeStep)
-                    .frame(width: 100)
+                    .textFieldStyle(.roundedBorder)
+                    .colorScheme(.light)
+                    .frame(width: 125)
                     .onChange(of: globalData.inputData[index].timeStep) {
                         let temp = globalData.inputData[index].timeStep
                         if !temp.isInteger && !temp.isDouble && !temp.isEmpty {

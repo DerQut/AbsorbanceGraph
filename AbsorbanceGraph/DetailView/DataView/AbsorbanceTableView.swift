@@ -12,14 +12,18 @@ struct AbsorbanceTableView: View {
     
     @EnvironmentObject var globalData: GlobalData
     
+    let frameWidth: CGFloat
+    
     var body: some View {
         VStack {
             Text("Absorbance, A [\(globalData.absorbanceUnit)]")
             Divider()
-                .frame(width: 150)
+                .frame(width: frameWidth)
             ForEach (globalData.inputData.indices) { index in
                 TextField("", text: $globalData.inputData[index].absorbance)
-                    .frame(width: 150)
+                    .textFieldStyle(.roundedBorder)
+                    .colorScheme(.light)
+                    .frame(width: frameWidth)
                     .onChange(of: globalData.inputData[index].absorbance) {
                         let temp = globalData.inputData[index].absorbance
                         if !temp.isInteger && !temp.isDouble && !temp.isEmpty {

@@ -15,8 +15,10 @@ struct DataSettingsView: View {
     
     #if os(iOS)
     var paddingInset: CGFloat = 36
+    var frameWidth: CGFloat = 100
     #else
     var paddingInset: CGFloat = 28
+    var frameWidth: CGFloat = 75
     #endif
     
     var body: some View {
@@ -45,7 +47,7 @@ struct DataSettingsView: View {
                             }
                         }
                         .pickerStyle(.segmented)
-                        .frame(width: 75)
+                        .frame(width: frameWidth)
                     }
                     
                     HStack {
@@ -53,7 +55,7 @@ struct DataSettingsView: View {
                         Spacer()
                         TextField("", text: $globalData.absorbanceUnit)
                             .textFieldStyle(.roundedBorder)
-                            .frame(width: 75)
+                            .frame(width: frameWidth)
                     }
                     
                     HStack {
@@ -65,7 +67,7 @@ struct DataSettingsView: View {
                             }
                         }
                         .pickerStyle(.segmented)
-                        .frame(width: 75)
+                        .frame(width: frameWidth)
                     }
                     
                     if false && globalData.concentrationUnit == .ppm {
@@ -73,14 +75,14 @@ struct DataSettingsView: View {
                             Text("Solvent density:")
                             Spacer()
                             TextField("", text: $globalData.solventDensity)
-                                .frame(width: 75)
+                                .frame(width: frameWidth)
                         }
                         
                         HStack {
                             Text("Solute density:")
                             Spacer()
                             TextField("", text: $globalData.soluteDensity)
-                                .frame(width: 75)
+                                .frame(width: frameWidth)
                         }
                     }
                     
