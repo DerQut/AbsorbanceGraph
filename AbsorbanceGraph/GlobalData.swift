@@ -81,16 +81,18 @@ class GlobalData: ObservableObject {
         
         self.tableData[0].degradation = "0"
         
-        self.tableData.filter {
-            !$0.absorbance.isEmpty
-        }.indices.filter {
-            $0 != 0
-        }.forEach { i in
-            self.tableData[i].concentration = String(Double(self.tableData[0].concentration)! * Double(self.tableData[i].absorbance)! / Double(self.tableData[0].absorbance)!)
-            
-            self.tableData[i].degradation = String(
-                100 * (1 - Double(self.tableData[i].concentration)! / Double(self.tableData[0].concentration)!)
-            )
+        if let concentration0 = Double(tableData[0].concentration), let absorbance0 = Double(tableData[0].absorbance) {
+            for i in 1..<self.tableData.count {
+                if let absorbance1 = Double(self.tableData[i].absorbance) {
+                    self.tableData[i].concentration = String(concentration0 * absorbance1 / absorbance0)
+                    if let concentration1 = Double(tableData[i].concentration) {
+                        self.tableData[i].degradation = String(100 * (concentration0 - concentration1) / concentration0)
+                    }
+                } else {
+                    self.tableData[i].concentration = ""
+                    self.tableData[i].degradation = ""
+                }
+            }
         }
     }
     
