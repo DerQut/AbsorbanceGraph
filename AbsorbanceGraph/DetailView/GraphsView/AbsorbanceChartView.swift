@@ -45,6 +45,7 @@ struct AbsorbanceChartView: View {
                                 x: .value("Time", Double(data.timeStep)!),
                                 y: .value("Absorbance", Double(data.absorbance)!)
                             )
+                            .foregroundStyle(globalData.scatterColor)
                         }
                     }
                 }

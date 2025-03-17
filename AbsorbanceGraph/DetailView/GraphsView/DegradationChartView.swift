@@ -45,6 +45,7 @@ struct DegradationChartView: View {
                                 x: .value("Time", Double(data.timeStep)!),
                                 y: .value("Concentration", Double(data.degradation)!)
                             )
+                            .foregroundStyle(globalData.scatterColor)
                         }
                     }
                 }

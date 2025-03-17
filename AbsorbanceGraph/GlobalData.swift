@@ -59,6 +59,12 @@ class GlobalData: ObservableObject {
     @Published var graphAxisFont: Int = 16
     @Published var graphTickmarkFont: Int = 12
     
+    @Published var showScatter: Bool = true
+    @Published var showLine: Bool = false
+    
+    @Published var scatterColor: Color = .accentColor
+    @Published var lineColor: Color = .black
+    
     @Published var timeUnit: TimeUnit = .min
     @Published var absorbanceUnit: String = "a.u."
     @Published var concentrationUnit: ConcentrationUnit = .ppm

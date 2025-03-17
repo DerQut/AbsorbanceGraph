@@ -45,6 +45,7 @@ struct ConcentrationChartView: View {
                                 x: .value("Time", Double(data.timeStep)!),
                                 y: .value("Concentration", Double(data.concentration)!)
                             )
+                            .foregroundStyle(globalData.scatterColor)
                         }
                     }
                 }

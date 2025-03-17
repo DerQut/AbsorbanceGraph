@@ -35,6 +35,39 @@ struct GraphSettingsView: View {
             
             if isShown {
                 VStack(alignment: .leading) {
+                    
+                    HStack {
+                        Text("Show scatter points:")
+                        Spacer()
+                        Toggle("Show scatter points", isOn: $globalData.showScatter)
+                            .labelsVisibility(.hidden)
+                    }
+                    
+                    if globalData.showScatter {
+                        HStack {
+                            Text("Point color:")
+                            Spacer()
+                            ColorPicker("", selection: $globalData.scatterColor)
+                                .labelsVisibility(.hidden)
+                        }
+                    }
+                    
+                    HStack {
+                        Text("Show line:")
+                        Spacer()
+                        Toggle("Show line", isOn: $globalData.showLine)
+                            .labelsVisibility(.hidden)
+                    }
+                    
+                    if globalData.showLine {
+                        HStack {
+                            Text("Line color:")
+                            Spacer()
+                            ColorPicker("", selection: $globalData.lineColor)
+                                .labelsVisibility(.hidden)
+                        }
+                    }
+                    
                     HStack {
                         Text("Close graphs:")
                         Spacer()
