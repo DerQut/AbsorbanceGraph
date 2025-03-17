@@ -36,16 +36,16 @@ struct GraphSettingsView: View {
             if isShown {
                 VStack(alignment: .leading) {
                     HStack {
-                        Text("Close graphs")
+                        Text("Close graphs:")
                         Spacer()
                         Toggle("Close graphs", isOn: $globalData.isGraphClosed)
                             .labelsVisibility(.hidden)
                     }
                     
                     HStack {
-                        Text("Use grid")
+                        Text("Use grids:")
                         Spacer()
-                        Toggle("Use grid", isOn: $globalData.showGrid)
+                        Toggle("Use grids", isOn: $globalData.showGrid)
                             .labelsVisibility(.hidden)
                     }
                     
