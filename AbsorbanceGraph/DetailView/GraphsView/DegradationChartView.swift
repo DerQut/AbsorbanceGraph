@@ -41,11 +41,25 @@ struct DegradationChartView: View {
                 Chart {
                     ForEach (globalData.tableData.filter{ !$0.timeStep.isEmpty && !$0.degradation.isEmpty }) { data in
                         if !data.timeStep.isEmpty && !data.degradation.isEmpty {
-                            PointMark(
-                                x: .value("Time", Double(data.timeStep)!),
-                                y: .value("Concentration", Double(data.degradation)!)
-                            )
-                            .foregroundStyle(globalData.scatterColor)
+                            
+                            if Double(data.degradation)! <= yDomainMax && Double(data.degradation)! >= yDomainMin && Double(data.timeStep)! <= xDomainMax && Double(data.timeStep)! >= xDomainMin {
+                                
+                                if globalData.showLine {
+                                    LineMark(
+                                        x: .value("Time", Double(data.timeStep)!),
+                                        y: .value("Absorbance", Double(data.degradation)!)
+                                    )
+                                    .foregroundStyle(globalData.lineColor)
+                                }
+                                
+                                if globalData.showScatter {
+                                    PointMark(
+                                        x: .value("Time", Double(data.timeStep)!),
+                                        y: .value("Absorbance", Double(data.degradation)!)
+                                    )
+                                    .foregroundStyle(globalData.scatterColor)
+                                }
+                            }
                         }
                     }
                 }

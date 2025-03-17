@@ -16,6 +16,8 @@ struct GraphsView: View {
                 ConcentrationChartView()
                 Divider()
                 DegradationChartView()
+                Divider()
+                CalibrationChartView()
                 
                 Spacer()
             }

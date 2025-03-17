@@ -1,5 +1,5 @@
 //
-//  AbsorbanceChartView.swift
+//  CalibrationChartView.swift
 //  AbsorbanceGraph
 //
 //  Created by Marcel Chołodecki on 17/03/2025.
@@ -9,7 +9,7 @@ import SwiftUI
 import Charts
 
 
-struct AbsorbanceChartView: View {
+struct CalibrationChartView: View {
     @EnvironmentObject var globalData: GlobalData
     
     @State var xDomainMinBuffer: String = "0"
@@ -39,14 +39,14 @@ struct AbsorbanceChartView: View {
             ZStack {
                 Color(.white)
                 Chart {
-                    ForEach (globalData.tableData.filter{ !$0.timeStep.isEmpty && !$0.absorbance.isEmpty }) { data in
-                        if !data.timeStep.isEmpty && !data.absorbance.isEmpty {
+                    ForEach (globalData.tableData.filter{ !$0.absorbance.isEmpty && !$0.concentration.isEmpty }) { data in
+                        if !data.absorbance.isEmpty && !data.concentration.isEmpty {
                             
-                            if Double(data.absorbance)! <= yDomainMax && Double(data.absorbance)! >= yDomainMin && Double(data.timeStep)! <= xDomainMax && Double(data.timeStep)! >= xDomainMin {
+                            if Double(data.concentration)! <= xDomainMax && Double(data.concentration)! >= xDomainMin && Double(data.absorbance)! <= yDomainMax && Double(data.absorbance)! >= yDomainMin {
                                 
                                 if globalData.showLine {
                                     LineMark(
-                                        x: .value("Time", Double(data.timeStep)!),
+                                        x: .value("Concentration", Double(data.concentration)!),
                                         y: .value("Absorbance", Double(data.absorbance)!)
                                     )
                                     .foregroundStyle(globalData.lineColor)
@@ -54,7 +54,7 @@ struct AbsorbanceChartView: View {
                                 
                                 if globalData.showScatter {
                                     PointMark(
-                                        x: .value("Time", Double(data.timeStep)!),
+                                        x: .value("Concentration", Double(data.concentration)!),
                                         y: .value("Absorbance", Double(data.absorbance)!)
                                     )
                                     .foregroundStyle(globalData.scatterColor)
@@ -68,7 +68,7 @@ struct AbsorbanceChartView: View {
                 .chartYScale(domain: (yDomainMin...yDomainMax))
                 
                 .chartXAxisLabel(position: .bottom, alignment: .center) {
-                    Text("Time, t [\(globalData.timeUnit)]")
+                    Text("Concentration, c [\(globalData.concentrationUnit == .mgL ? "mg/l" : "ppm")]")
                         .font(Font.custom("TimesNewRomanPSMT", size: CGFloat(globalData.graphAxisFont)))
                         .foregroundStyle(.black)
                         .padding(8)

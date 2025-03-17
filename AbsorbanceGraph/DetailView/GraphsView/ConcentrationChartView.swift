@@ -41,11 +41,25 @@ struct ConcentrationChartView: View {
                 Chart {
                     ForEach (globalData.tableData.filter{ !$0.timeStep.isEmpty && !$0.concentration.isEmpty }) { data in
                         if !data.timeStep.isEmpty && !data.concentration.isEmpty {
-                            PointMark(
-                                x: .value("Time", Double(data.timeStep)!),
-                                y: .value("Concentration", Double(data.concentration)!)
-                            )
-                            .foregroundStyle(globalData.scatterColor)
+                            
+                            if Double(data.concentration)! <= yDomainMax && Double(data.concentration)! >= yDomainMin && Double(data.timeStep)! <= xDomainMax && Double(data.timeStep)! >= xDomainMin {
+                                
+                                if globalData.showLine {
+                                    LineMark(
+                                        x: .value("Time", Double(data.timeStep)!),
+                                        y: .value("Absorbance", Double(data.concentration)!)
+                                    )
+                                    .foregroundStyle(globalData.lineColor)
+                                }
+                                
+                                if globalData.showScatter {
+                                    PointMark(
+                                        x: .value("Time", Double(data.timeStep)!),
+                                        y: .value("Absorbance", Double(data.concentration)!)
+                                    )
+                                    .foregroundStyle(globalData.scatterColor)
+                                }
+                            }
                         }
                     }
                 }
