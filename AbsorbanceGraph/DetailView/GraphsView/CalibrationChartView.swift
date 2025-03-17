@@ -22,6 +22,7 @@ struct CalibrationChartView: View {
     @State var xMajorLines: [Double] = [0, 100, 200, 300]
     @State var xMinorStep: String = "50"
     @State var xMinorLines: [Double] = [0, 50, 100, 150, 200, 250, 300]
+    @State var xGridStartPoint: String = "0"
     
     @State var yDomainMinBuffer: String = "0"
     @State var yDomainMaxBuffer: String = "2"
@@ -33,6 +34,7 @@ struct CalibrationChartView: View {
     @State var yMajorLines: [Double] = [0, 0.5, 1, 1.5, 2]
     @State var yMinorStep: String = "0.1"
     @State var yMinorLines: [Double] = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2]
+    @State var yGridStartPoint: String = "0"
     
     var body: some View {
         HStack {
@@ -170,7 +172,7 @@ struct CalibrationChartView: View {
                         .frame(width: 50)
                         .onChange(of: xDomainMinBuffer) {
                             if !xDomainMinBuffer.isDouble && !xDomainMinBuffer.isInteger && !xDomainMinBuffer.isEmpty {
-                                xDomainMinBuffer = xDomainMinBuffer.filter { $0.isNumber }
+                                xDomainMinBuffer = xDomainMinBuffer.filter { $0.isNumber || $0 == "-" }
                             }
                             updateXLines()
                         }
@@ -185,7 +187,7 @@ struct CalibrationChartView: View {
                         .frame(width: 50)
                         .onChange(of: xDomainMaxBuffer) {
                             if !xDomainMaxBuffer.isDouble && !xDomainMaxBuffer.isInteger && !xDomainMaxBuffer.isEmpty {
-                                xDomainMaxBuffer = xDomainMaxBuffer.filter { $0.isNumber }
+                                xDomainMaxBuffer = xDomainMaxBuffer.filter { $0.isNumber || $0 == "-" }
                             }
                             updateXLines()
                         }
@@ -223,6 +225,21 @@ struct CalibrationChartView: View {
                         }
                 }
                 
+                HStack {
+                    Text("X grid start point:")
+                    Spacer()
+                    TextField("", text: $xGridStartPoint)
+                        .textFieldStyle(.roundedBorder)
+                        .colorScheme(.light)
+                        .frame(width: 50)
+                        .onChange(of: xGridStartPoint) {
+                            if !xGridStartPoint.isDouble && !xGridStartPoint.isInteger && !xGridStartPoint.isEmpty {
+                                xGridStartPoint = xGridStartPoint.filter { $0.isNumber }
+                            }
+                            updateXLines()
+                        }
+                }
+                
                 Divider()
                 
                 HStack {
@@ -234,7 +251,7 @@ struct CalibrationChartView: View {
                         .frame(width: 50)
                         .onChange(of: yDomainMinBuffer) {
                             if !yDomainMinBuffer.isDouble && !yDomainMinBuffer.isInteger && !yDomainMinBuffer.isEmpty {
-                                yDomainMinBuffer = yDomainMinBuffer.filter { $0.isNumber }
+                                yDomainMinBuffer = yDomainMinBuffer.filter { $0.isNumber || $0 == "-" }
                             }
                             updateYLines()
                         }
@@ -249,7 +266,7 @@ struct CalibrationChartView: View {
                         .frame(width: 50)
                         .onChange(of: yDomainMaxBuffer) {
                             if !yDomainMaxBuffer.isDouble && !yDomainMaxBuffer.isInteger && !yDomainMaxBuffer.isEmpty {
-                                yDomainMaxBuffer = yDomainMaxBuffer.filter { $0.isNumber }
+                                yDomainMaxBuffer = yDomainMaxBuffer.filter { $0.isNumber || $0 == "-" }
                             }
                             updateYLines()
                         }
@@ -286,13 +303,28 @@ struct CalibrationChartView: View {
                             updateYLines()
                         }
                 }
+                
+                HStack {
+                    Text("Y grid start point:")
+                    Spacer()
+                    TextField("", text: $yGridStartPoint)
+                        .textFieldStyle(.roundedBorder)
+                        .colorScheme(.light)
+                        .frame(width: 50)
+                        .onChange(of: yGridStartPoint) {
+                            if !yGridStartPoint.isDouble && !yGridStartPoint.isInteger && !yGridStartPoint.isEmpty {
+                                yGridStartPoint = yGridStartPoint.filter { $0.isNumber }
+                            }
+                            updateYLines()
+                        }
+                }
             }
         }
     }
     
     func updateXLines() {
         
-        if let xMin = Double(xDomainMinBuffer), let xMax = Double(xDomainMaxBuffer), let minorStep = Double(xMinorStep), let majorStep = Double(xMajorStep) {
+        if let xMin = Double(xDomainMinBuffer), let xMax = Double(xDomainMaxBuffer), let minorStep = Double(xMinorStep), let majorStep = Double(xMajorStep), let startPoint = Double(xGridStartPoint) {
             
             if (minorStep <= 0 || majorStep <= 0) { return }
             if (xMin >= xMax) { return }
@@ -303,23 +335,38 @@ struct CalibrationChartView: View {
             xMinorLines = []
             xMajorLines = []
             
-            var i: Double = xMin
+            var i: Double = startPoint
             while i <= xMax {
                 xMinorLines.append(i)
                 i += minorStep
             }
             
-            i = xMin
+            i = startPoint
+            while i >= xMin {
+                xMinorLines.append(i)
+                i -= minorStep
+            }
+            
+            i = startPoint
             while i <= xMax {
                 xMajorLines.append(i)
                 i += majorStep
             }
+            
+            i = startPoint
+            while i >= xMin {
+                xMajorLines.append(i)
+                i -= majorStep
+            }
+            
+            xMajorLines = xMajorLines.sorted()
+            xMinorLines = xMinorLines.sorted()
         }
     }
     
     func updateYLines() {
         
-        if let yMin = Double(yDomainMinBuffer), let yMax = Double(yDomainMaxBuffer), let minorStep = Double(yMinorStep), let majorStep = Double(yMajorStep) {
+        if let yMin = Double(yDomainMinBuffer), let yMax = Double(yDomainMaxBuffer), let minorStep = Double(yMinorStep), let majorStep = Double(yMajorStep), let startPoint = Double(yGridStartPoint) {
             
             if (minorStep <= 0 || majorStep <= 0) { return }
             if (yMin >= yMax) { return }
@@ -330,17 +377,32 @@ struct CalibrationChartView: View {
             yMinorLines = []
             yMajorLines = []
             
-            var i: Double = yMin
+            var i: Double = startPoint
             while i <= yMax {
                 yMinorLines.append(i)
                 i += minorStep
             }
             
-            i = yMin
+            i = startPoint
+            while i >= yMin {
+                yMinorLines.append(i)
+                i -= minorStep
+            }
+            
+            i = startPoint
             while i <= yMax {
                 yMajorLines.append(i)
                 i += majorStep
             }
+            
+            i = startPoint
+            while i >= yMin {
+                yMajorLines.append(i)
+                i -= majorStep
+            }
+            
+            yMajorLines = yMajorLines.sorted()
+            yMinorLines = yMinorLines.sorted()
         }
         
         
